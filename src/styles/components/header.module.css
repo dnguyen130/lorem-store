@@ -1,0 +1,69 @@
+.nav {
+	background-color: var(--turquoise);
+	width: 100vw;
+	height: 150px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	padding: 20px;
+	font-family: "Ysabeau Office";
+}
+
+.nav a {
+	text-decoration: none;
+}
+
+.nav h1 {
+	margin: 0;
+	font-size: 48px;
+	color: var(--white);
+	font-family: "Parisienne";
+}
+
+.nav input {
+	font-size: 20px;
+}
+
+.links {
+	display: flex;
+}
+
+.links a {
+	margin-right: 50px;
+}
+
+.links h2 {
+	margin: 0;
+}
+
+.row {
+	display: flex;
+}
+
+.headerRow {
+	display: flex;
+	justify-content: space-between;
+}
+
+.headerRight {
+	display: flex;
+	align-items: center;
+}
+
+.nav input {
+	margin-right: 10px;
+}
+
+.icon {
+	width: 20px;
+	aspect-ratio: 1/1;
+	color: var(--white);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 10px;
+}
+
+.icon:last-child {
+	margin-right: 0;
+}
