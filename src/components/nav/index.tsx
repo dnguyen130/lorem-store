@@ -22,9 +22,9 @@ export default function Nav(): ReactElement {
 			</div>
 			<div className={styles.row}>
 				<div className={styles.links}>
-					{navigation.map((o) => {
+					{navigation.map((o, i) => {
 						return (
-							<a href={o.link}>
+							<a key={i} href={o.link}>
 								<h2>{o.title}</h2>
 							</a>
 						);

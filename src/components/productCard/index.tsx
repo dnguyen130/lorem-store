@@ -3,7 +3,7 @@ import styles from "../../styles/components/productCard.module.css";
 
 interface ProductCardType {
 	name: string;
-	price: string;
+	price: number;
 	imageURL: string;
 }
 
@@ -16,7 +16,7 @@ export default function ProductCard({
 		<div className={styles.cardContainer}>
 			<figure>
 				<img src={imageURL} />
-				<caption>{name}</caption>
+				<figcaption>{name}</figcaption>
 			</figure>
 			<p>${price}</p>
 			<button>Add to Cart</button>

@@ -1,24 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { ProductState } from "@/types/product";
 
-export interface ProductState {
-	id: number;
-	name: string;
-	description: string;
-	brand: string;
-	image: string;
-	SKU: number;
-	category: string;
-	size: string;
-	price: number;
-	discount_id: number;
-	created_at: Date;
-	modified_at: Date;
+interface QueryType {
+	data: ProductState[];
+	meta: number;
 }
 
-const initialState: ProductState[] = [];
-
-export const ProductSlice = createSlice({
-	name: "product",
-	initialState,
-	reducers: {}
+export const productApi = createApi({
+	reducerPath: "product",
+	baseQuery: fetchBaseQuery({
+		baseUrl: "https://lorem-store-api-production.up.railway.app/"
+	}),
+	endpoints: (builder) => ({
+		getAllProducts: builder.query<QueryType, string>({
+			query: () => `product`
+		})
+	})
 });
+
+export const { useGetAllProductsQuery } = productApi;

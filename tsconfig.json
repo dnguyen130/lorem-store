@@ -21,7 +21,13 @@
 		"noFallthroughCasesInSwitch": true,
 
 		/* CSS */
-		"plugins": [{ "name": "typescript-plugin-css-modules" }]
+		"plugins": [{ "name": "typescript-plugin-css-modules" }],
+
+		/* Path Shortcut */
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		}
 	},
 	"include": ["src"],
 	"references": [{ "path": "./tsconfig.node.json" }]
