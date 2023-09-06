@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 // Components
 import Nav from "./components/nav";
 import ProductCard from "./components/productCard";
+import CreateProductModal from "./components/createProductModal";
 
 //Styles
 import productGridStyles from "./styles/pages/productGrid.module.css";
@@ -39,6 +40,7 @@ export default function App() {
 							);
 						})}
 				</div>
+				<CreateProductModal />
 			</main>
 		</>
 	);
