@@ -2,14 +2,15 @@ import { ReactElement } from "react";
 import styles from "../../styles/components/header.module.css";
 import navigation from "../../../data/navigation.json";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 export default function Nav(): ReactElement {
 	return (
 		<header className={styles.nav}>
 			<div className={styles.headerRow}>
-				<a href="/">
+				<NavLink to="/">
 					<h1>Lorem</h1>
-				</a>
+				</NavLink>
 				<div className={styles.headerRight}>
 					<input />
 					<div className={styles.icon}>
@@ -24,9 +25,9 @@ export default function Nav(): ReactElement {
 				<div className={styles.links}>
 					{navigation.map((o, i) => {
 						return (
-							<a key={i} href={o.link}>
+							<NavLink key={i} to={o.link}>
 								<h2>{o.title}</h2>
-							</a>
+							</NavLink>
 						);
 					})}
 				</div>

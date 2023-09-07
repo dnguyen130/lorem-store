@@ -1,4 +1,36 @@
 .container {
 	width: 100%;
-	border: 1px solid red;
+	min-height: 200px;
+}
+
+.container h2 {
+	margin: 0;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+}
+
+.row {
+	display: flex;
+	gap: 20px;
+}
+
+textarea {
+	resize: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+	appearance: textfield;
+	-moz-appearance: textfield;
 }

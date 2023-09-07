@@ -1,11 +1,11 @@
 [
 	{
-		"title": "based",
-		"link": "#"
+		"title": "Home",
+		"link": "/"
 	},
 	{
-		"title": "based",
-		"link": "#"
+		"title": "Create Product",
+		"link": "createproduct"
 	},
 	{
 		"title": "based",

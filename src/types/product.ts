@@ -8,7 +8,7 @@ export interface ProductState {
 	category: string;
 	size: string;
 	price: number;
-	discount_id: number;
-	created_at: Date;
-	modified_at: Date;
+	discount_id?: number;
+	created_at?: Date;
+	modified_at?: Date;
 }
