@@ -11,3 +11,14 @@ export interface ProductState {
 	created_at?: Date;
 	modified_at?: Date;
 }
+
+export const initialProductState = {
+	name: "",
+	brand: "",
+	description: "",
+	price: 0,
+	SKU: 0,
+	image: "",
+	category: "",
+	size: ""
+};

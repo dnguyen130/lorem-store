@@ -1,6 +1,6 @@
 // React
 import { ReactElement, useState } from "react";
-// import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 // Styles
 import styles from "@/styles/routes/createProduct.module.css";
@@ -9,22 +9,17 @@ import styles from "@/styles/routes/createProduct.module.css";
 import { ProductState } from "@/types/product";
 
 // Axios
-import axios from "axios";
+// import axios from "axios";
 
 const MAX_FILE_SIZE = 5120;
 
 export default function CreateProduct(): ReactElement {
+	const {
+		register,
+		handleSubmit
+		// formState: { errors }
+	} = useForm<ProductState>();
 	const [image, setImage] = useState<string>("");
-	const [product, setProduct] = useState<ProductState>({
-		name: "",
-		brand: "",
-		description: "",
-		price: 0,
-		SKU: 0,
-		image: image,
-		category: "",
-		size: ""
-	});
 
 	function HandleImageChange(e: React.ChangeEvent<HTMLInputElement>): void {
 		const file = e.target.files ? (e.target.files[0] as Blob) : null;
@@ -38,12 +33,12 @@ export default function CreateProduct(): ReactElement {
 		}
 	}
 
-	// async function SubmitProduct(product: ProductState): Promise<void> {
-	// 	await axios.post("/product", product);
-	// }
+	const onSubmit: SubmitHandler<ProductState> = (data) => {
+		console.log(data);
+	};
 
 	return (
-		<form className={styles.container}>
+		<form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
 			<h2>Create Product</h2>
 			<div className={styles.row}>
 				<div className={styles.column}>
@@ -51,8 +46,9 @@ export default function CreateProduct(): ReactElement {
 					<input
 						type="file"
 						accept="image/png, image/gif, image/jpeg, image/webp"
-						onChange={HandleImageChange}
 						required
+						{...register("image")}
+						onChange={HandleImageChange}
 					/>
 					<img src={image} />
 				</div>
@@ -60,54 +56,50 @@ export default function CreateProduct(): ReactElement {
 					<label htmlFor="name">Name</label>
 					<input
 						id="name"
-						onChange={(e) => {
-							setProduct({ ...product, name: e.target.value });
-						}}
 						required
+						{...register("name")}
+						placeholder="Add product name..."
 					/>
 					<label htmlFor="brand">Brand</label>
 					<input
 						id="brand"
-						onChange={(e) => {
-							setProduct({ ...product, brand: e.target.value });
-						}}
 						required
+						{...register("brand")}
+						placeholder="Add product brand..."
 					/>
 					<label htmlFor="category">Category</label>
 					<input
 						id="category"
-						onChange={(e) => {
-							setProduct({ ...product, category: e.target.value });
-						}}
 						required
+						{...register("category")}
+						placeholder="Add product category..."
 					/>
 					<label htmlFor="desc">Description</label>
 					<textarea
 						id="desc"
 						rows={5}
-						onChange={(e) => {
-							setProduct({ ...product, description: e.target.value });
-						}}
 						required
+						{...register("description")}
+						placeholder="Add a description to your product..."
 					/>
 					<label htmlFor="price">Price</label>
 					<input
 						type="number"
 						id="price"
-						onChange={(e) => {
-							setProduct({ ...product, price: Number(e.target.value) });
-						}}
 						required
+						{...(register("price"), { min: 0.01 })}
+						step="0.01"
+						placeholder="0.00"
 					/>
 					<label htmlFor="SKU">SKU</label>
 					<input
 						type="number"
 						id="SKU"
-						onChange={(e) => {
-							setProduct({ ...product, SKU: Number(e.target.value) });
-						}}
 						required
+						{...register("SKU")}
+						placeholder="Add product SKU..."
 					/>
+					<input type="submit" />
 				</div>
 			</div>
 		</form>
