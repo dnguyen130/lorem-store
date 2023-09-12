@@ -10,6 +10,7 @@ interface QueryType {
 }
 
 const initialState: ProductState = {
+	id: 0,
 	name: "",
 	description: "",
 	brand: "",
@@ -43,5 +44,7 @@ export const productApi = createApi({
 });
 
 export const { setProduct } = productSlice.actions;
+
+export default productSlice.reducer;
 
 export const { useGetAllProductsQuery } = productApi;

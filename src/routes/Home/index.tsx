@@ -17,13 +17,11 @@ export default function Home(): ReactElement {
 	const [products, setProducts] = useState<ProductState[] | never[]>([]);
 	const { data } = useGetAllProductsQuery("");
 
-	console.log(useGetAllProductsQuery(""));
-
 	useEffect(() => {
-		if (data) {
+		if (data && data.data !== products) {
 			setProducts(data.data);
 		}
-	}, [data]);
+	}, [data, products]);
 
 	return (
 		<div className={styles.grid}>

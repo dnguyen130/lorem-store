@@ -1,4 +1,5 @@
 export interface ProductState {
+	id?: number;
 	name: string;
 	description: string;
 	brand: string;

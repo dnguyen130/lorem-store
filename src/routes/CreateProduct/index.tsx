@@ -1,15 +1,13 @@
-// React
+// Packages
 import { ReactElement, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import axios from "axios";
 
 // Styles
 import styles from "@/styles/routes/createProduct.module.css";
 
 // Types
 import { ProductState } from "@/types/product";
-
-// Axios
-// import axios from "axios";
 
 const MAX_FILE_SIZE = 5120;
 
@@ -33,8 +31,32 @@ export default function CreateProduct(): ReactElement {
 		}
 	}
 
-	const onSubmit: SubmitHandler<ProductState> = (data) => {
+	console.log(import.meta.env.VITE_CLOUD_NAME);
+
+	const onSubmit: SubmitHandler<ProductState> = async (data) => {
+		console.log("fire", data);
+		const formData = new FormData();
+		formData.append("file", data.image[0]);
+		formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
+		const cloud_res = await axios.post(
+			`https://api.cloudinary.com/v1_1/${
+				import.meta.env.VITE_CLOUD_NAME
+			}/image/upload`,
+			formData
+		);
+		const image_url = cloud_res.data.secure_url;
 		console.log(data);
+		const res = await axios.post("/product", {
+			name: data.name,
+			brand: data.brand,
+			description: data.description,
+			price: data.price,
+			SKU: data.SKU,
+			image: image_url,
+			category: data.category,
+			size: data.size
+		});
+		console.log(res);
 	};
 
 	return (
@@ -45,7 +67,7 @@ export default function CreateProduct(): ReactElement {
 					<label htmlFor="image">Upload Image</label>
 					<input
 						type="file"
-						accept="image/png, image/gif, image/jpeg, image/webp"
+						accept="image/png, image/jpg, image/jpeg, image/webp"
 						required
 						{...register("image")}
 						onChange={HandleImageChange}
@@ -87,7 +109,7 @@ export default function CreateProduct(): ReactElement {
 						type="number"
 						id="price"
 						required
-						{...(register("price"), { min: 0.01 })}
+						{...register("price", { min: 0.01 })}
 						step="0.01"
 						placeholder="0.00"
 					/>
@@ -98,6 +120,13 @@ export default function CreateProduct(): ReactElement {
 						required
 						{...register("SKU")}
 						placeholder="Add product SKU..."
+					/>
+					<label htmlFor="size">Size</label>
+					<input
+						id="size"
+						required
+						{...register("size")}
+						placeholder="Add product size..."
 					/>
 					<input type="submit" />
 				</div>
