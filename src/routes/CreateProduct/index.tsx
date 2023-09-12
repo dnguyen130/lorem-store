@@ -31,8 +31,6 @@ export default function CreateProduct(): ReactElement {
 		}
 	}
 
-	console.log(import.meta.env.VITE_CLOUD_NAME);
-
 	const onSubmit: SubmitHandler<ProductState> = async (data) => {
 		console.log("fire", data);
 		const formData = new FormData();
