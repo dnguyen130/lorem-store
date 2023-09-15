@@ -14,7 +14,8 @@ const MAX_FILE_SIZE = 5120;
 export default function CreateProduct(): ReactElement {
 	const {
 		register,
-		handleSubmit
+		handleSubmit,
+		reset
 		// formState: { errors }
 	} = useForm<ProductState>();
 	const [image, setImage] = useState<string>("");
@@ -59,66 +60,85 @@ export default function CreateProduct(): ReactElement {
 
 	return (
 		<form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
-			<h2>Create Product</h2>
 			<div className={styles.row}>
-				<div className={styles.column}>
-					<label htmlFor="image">Upload Image</label>
+				<div className={`${styles.column} ${styles.spaced}`}>
+					<img src={image ? image : "/default.jpg"} alt="image preivew" />
+					<label htmlFor="image" className={styles.image_label}>
+						Upload Image
+					</label>
 					<input
+						id="image"
+						className={styles.image_input}
 						type="file"
 						accept="image/png, image/jpg, image/jpeg, image/webp"
 						required
 						{...register("image")}
 						onChange={HandleImageChange}
 					/>
-					<img src={image} />
 				</div>
 				<div className={styles.column}>
-					<label htmlFor="name">Name</label>
-					<input
-						id="name"
-						required
-						{...register("name")}
-						placeholder="Add product name..."
-					/>
-					<label htmlFor="brand">Brand</label>
-					<input
-						id="brand"
-						required
-						{...register("brand")}
-						placeholder="Add product brand..."
-					/>
-					<label htmlFor="category">Category</label>
-					<input
-						id="category"
-						required
-						{...register("category")}
-						placeholder="Add product category..."
-					/>
-					<label htmlFor="desc">Description</label>
-					<textarea
-						id="desc"
-						rows={5}
-						required
-						{...register("description")}
-						placeholder="Add a description to your product..."
-					/>
-					<label htmlFor="price">Price</label>
-					<input
-						type="number"
-						id="price"
-						required
-						{...register("price", { min: 0.01 })}
-						step="0.01"
-						placeholder="0.00"
-					/>
-					<label htmlFor="SKU">SKU</label>
-					<input
-						type="number"
-						id="SKU"
-						required
-						{...register("SKU")}
-						placeholder="Add product SKU..."
-					/>
+					<div className={styles.input_group}>
+						<label htmlFor="name">Name</label>
+						<input
+							id="name"
+							required
+							{...register("name")}
+							placeholder="Add product name..."
+						/>
+					</div>
+					<div className={styles.input_row}>
+						<div className={styles.input_group}>
+							<label htmlFor="brand">Brand</label>
+							<input
+								id="brand"
+								required
+								{...register("brand")}
+								placeholder="Add product brand..."
+							/>
+						</div>
+						<div className={styles.input_group}>
+							<label htmlFor="category">Category</label>
+							<input
+								id="category"
+								required
+								{...register("category")}
+								placeholder="Add product category..."
+							/>
+						</div>
+					</div>
+					<div className={styles.input_group}>
+						<label htmlFor="desc">Description</label>
+						<textarea
+							id="desc"
+							rows={5}
+							required
+							{...register("description")}
+							placeholder="Add a description to your product..."
+						/>
+						<div className={styles.input_row}>
+							<div className={styles.input_group}>
+								<label htmlFor="price">Price</label>
+								<input
+									type="number"
+									id="price"
+									required
+									{...register("price", { min: 0.01 })}
+									step="0.01"
+									placeholder="0.00"
+								/>
+							</div>
+							<div className={styles.input_group}>
+								<label htmlFor="SKU">SKU</label>
+								<input
+									type="number"
+									id="SKU"
+									required
+									{...register("SKU")}
+									placeholder="Add product SKU..."
+								/>
+							</div>
+						</div>
+					</div>
 					<label htmlFor="size">Size</label>
 					<input
 						id="size"
@@ -126,8 +146,19 @@ export default function CreateProduct(): ReactElement {
 						{...register("size")}
 						placeholder="Add product size..."
 					/>
-					<input type="submit" />
 				</div>
+			</div>
+			<div className={styles.submit_row}>
+				<input className={styles.submit} type="submit" value="Create Product" />
+				<button
+					className={styles.clear}
+					type="button"
+					onClick={() => {
+						reset();
+					}}
+				>
+					Clear
+				</button>
 			</div>
 		</form>
 	);

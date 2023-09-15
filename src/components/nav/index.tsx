@@ -1,8 +1,26 @@
 import { ReactElement } from "react";
 import styles from "../../styles/components/header.module.css";
-import navigation from "../../../data/navigation.json";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+
+const Links = [
+	{
+		title: "Home",
+		link: "/"
+	},
+	{
+		title: "Create Product",
+		link: "createproduct"
+	},
+	{
+		title: "based",
+		link: "#"
+	},
+	{
+		title: "based",
+		link: "#"
+	}
+];
 
 export default function Nav(): ReactElement {
 	return (
@@ -23,7 +41,7 @@ export default function Nav(): ReactElement {
 			</div>
 			<div className={styles.row}>
 				<div className={styles.links}>
-					{navigation.map((o, i) => {
+					{Links.map((o, i) => {
 						return (
 							<NavLink key={i} to={o.link}>
 								<h2>{o.title}</h2>

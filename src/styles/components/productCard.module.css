@@ -17,7 +17,9 @@
 }
 
 .cardContainer img {
-	height: 150px;
+	max-height: 150px;
+	height: 100%;
+	max-width: 100%;
 }
 
 .cardContainer figcaption {
