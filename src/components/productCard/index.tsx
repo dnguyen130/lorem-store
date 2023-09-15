@@ -5,20 +5,24 @@ interface ProductCardType {
 	name: string;
 	price: number;
 	imageURL: string;
+	size: string;
+	brand: string;
 }
 
 export default function ProductCard({
 	name,
 	price,
-	imageURL
+	imageURL,
+	size,
+	brand
 }: ProductCardType): ReactElement {
 	return (
 		<div className={styles.cardContainer}>
-			<figure>
-				<img src={imageURL} />
-				<figcaption>{name}</figcaption>
-			</figure>
-			<p>${price}</p>
+			<img src={imageURL} />
+			<p className={styles.brand}>{brand}</p>
+			<p className={styles.name}>{name}</p>
+			<p className={styles.price}>${price}</p>
+			<p className={styles.size}>{size}</p>
 			<button>Add to Cart</button>
 		</div>
 	);

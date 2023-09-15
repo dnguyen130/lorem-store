@@ -32,6 +32,8 @@ export default function Home(): ReactElement {
 						name={o.name}
 						price={o.price}
 						imageURL={o.image}
+						size={o.size}
+						brand={o.brand}
 					/>
 				);
 			})}
