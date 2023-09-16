@@ -120,7 +120,7 @@ input {
 	padding: 5px;
 }
 
-input:invalid:required,
+/* input:invalid:required,
 textarea:invalid:required {
 	border: 1px solid var(--color-danger-500);
 }
@@ -128,7 +128,7 @@ textarea:invalid:required {
 input:invalid:required:focus,
 textarea:invalid:required:focus {
 	outline-color: var(--color-danger-500);
-}
+} */
 
 input:focus,
 textarea:focus {
@@ -141,4 +141,21 @@ textarea:focus {
 
 .spaced {
 	justify-content: center;
+}
+
+.label_group {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 14px;
+}
+
+.error {
+	color: var(--color-danger-500);
+	display: flex;
+	align-items: center;
+}
+
+.error span {
+	margin-left: 5px;
 }

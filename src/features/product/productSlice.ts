@@ -15,8 +15,18 @@ export const productApi = createApi({
 	endpoints: (builder) => ({
 		getAllProducts: builder.query<QueryType, string>({
 			query: () => `product`
+		}),
+		addNewProduct: builder.mutation({
+			query: (payload) => ({
+				url: "product",
+				method: "POST",
+				body: payload,
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
+			})
 		})
 	})
 });
 
-export const { useGetAllProductsQuery } = productApi;
+export const { useGetAllProductsQuery, useAddNewProductMutation } = productApi;

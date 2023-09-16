@@ -8,6 +8,10 @@ import styles from "@/styles/routes/createProduct.module.css";
 
 // Types
 import { ProductState } from "@/types/product";
+import {
+	useAddNewProductMutation,
+	useGetAllProductsQuery
+} from "@/features/product/productSlice";
 
 const MAX_FILE_SIZE = 5120;
 
@@ -15,10 +19,13 @@ export default function CreateProduct(): ReactElement {
 	const {
 		register,
 		handleSubmit,
-		reset
-		// formState: { errors }
+		reset,
+		formState: { errors }
 	} = useForm<ProductState>();
-	const [image, setImage] = useState<string>("");
+	const [preview, setPreview] = useState<string>("");
+	const [image, setImage] = useState<Blob>(new Blob());
+	const [addNewProduct] = useAddNewProductMutation();
+	const { refetch } = useGetAllProductsQuery("");
 
 	function HandleImageChange(e: React.ChangeEvent<HTMLInputElement>): void {
 		const file = e.target.files ? (e.target.files[0] as Blob) : null;
@@ -28,122 +35,223 @@ export default function CreateProduct(): ReactElement {
 		} else if (filesizeKilobytes > MAX_FILE_SIZE) {
 			alert("Image size too large. Please resize or optimize the image.");
 		} else {
-			setImage(URL.createObjectURL(file ? file : new Blob()));
+			setPreview(URL.createObjectURL(file ? file : new Blob()));
+			setImage(file);
 		}
 	}
 
 	const onSubmit: SubmitHandler<ProductState> = async (data) => {
-		console.log("fire", data);
 		const formData = new FormData();
-		formData.append("file", data.image[0]);
+		formData.append("file", image);
 		formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
-		const cloud_res = await axios.post(
-			`https://api.cloudinary.com/v1_1/${
-				import.meta.env.VITE_CLOUD_NAME
-			}/image/upload`,
-			formData
-		);
-		const image_url = cloud_res.data.secure_url;
-		console.log(data);
-		const res = await axios.post("/product", {
-			name: data.name,
-			brand: data.brand,
-			description: data.description,
-			price: data.price,
-			SKU: data.SKU,
-			image: image_url,
-			category: data.category,
-			size: data.size
-		});
-		console.log(res);
+		try {
+			const cloud_res = await axios.post(
+				`https://api.cloudinary.com/v1_1/${
+					import.meta.env.VITE_CLOUD_NAME
+				}/image/upload`,
+				formData
+			);
+			const image_url = cloud_res.data.secure_url;
+			const res = await addNewProduct({
+				name: data.name,
+				brand: data.brand,
+				description: data.description,
+				price: data.price,
+				SKU: data.SKU,
+				image: image_url,
+				category: data.category,
+				size: data.size
+			});
+			console.log(res);
+			refetch();
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
 		<form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
 			<div className={styles.row}>
 				<div className={`${styles.column} ${styles.spaced}`}>
-					<img src={image ? image : "/default.jpg"} alt="image preivew" />
+					<img src={preview ? preview : "/default.jpg"} alt="image preview" />
 					<label htmlFor="image" className={styles.image_label}>
 						Upload Image
 					</label>
 					<input
+						formNoValidate
 						id="image"
 						className={styles.image_input}
 						type="file"
 						accept="image/png, image/jpg, image/jpeg, image/webp"
-						required
-						{...register("image")}
 						onChange={HandleImageChange}
 					/>
 				</div>
 				<div className={styles.column}>
 					<div className={styles.input_group}>
-						<label htmlFor="name">Name</label>
+						<div className={styles.label_group}>
+							<label
+								htmlFor="name"
+								className={errors.name?.message ? styles.error : null}
+							>
+								Name
+							</label>
+							{errors.name?.message && (
+								<span className={styles.error}>{errors.name?.message}</span>
+							)}
+						</div>
 						<input
+							formNoValidate
 							id="name"
-							required
-							{...register("name")}
+							{...register("name", {
+								required: "Required",
+								maxLength: {
+									value: 80,
+									message: "Name exceeds limit"
+								}
+							})}
 							placeholder="Add product name..."
 						/>
 					</div>
 					<div className={styles.input_row}>
 						<div className={styles.input_group}>
-							<label htmlFor="brand">Brand</label>
+							<div className={styles.label_group}>
+								<label
+									htmlFor="brand"
+									className={errors.brand?.message ? styles.error : null}
+								>
+									Brand
+								</label>
+								{errors.brand?.message && (
+									<span className={styles.error}>{errors.brand?.message}</span>
+								)}
+							</div>
 							<input
+								formNoValidate
 								id="brand"
-								required
-								{...register("brand")}
+								{...register("brand", {
+									required: "Required"
+								})}
 								placeholder="Add product brand..."
 							/>
 						</div>
 						<div className={styles.input_group}>
-							<label htmlFor="category">Category</label>
+							<div className={styles.label_group}>
+								<label
+									htmlFor="category"
+									className={errors.category?.message ? styles.error : null}
+								>
+									Category
+								</label>
+								{errors.category?.message && (
+									<span className={styles.error}>
+										{errors.category?.message}
+									</span>
+								)}
+							</div>
 							<input
+								formNoValidate
 								id="category"
-								required
-								{...register("category")}
+								{...register("category", {
+									required: "Required"
+								})}
 								placeholder="Add product category..."
 							/>
 						</div>
 					</div>
 					<div className={styles.input_group}>
-						<label htmlFor="desc">Description</label>
+						<div className={styles.label_group}>
+							<label
+								htmlFor="desc"
+								className={errors.description?.message ? styles.error : null}
+							>
+								Description
+							</label>
+							{errors.description?.message && (
+								<span className={styles.error}>
+									{errors.description?.message}
+								</span>
+							)}
+						</div>
 						<textarea
 							id="desc"
 							rows={5}
-							required
-							{...register("description")}
+							{...register("description", { required: "Required" })}
 							placeholder="Add a description to your product..."
 						/>
 						<div className={styles.input_row}>
 							<div className={styles.input_group}>
-								<label htmlFor="price">Price</label>
+								<div className={styles.label_group}>
+									<label
+										htmlFor="price"
+										className={errors.price?.message ? styles.error : null}
+									>
+										Price
+									</label>
+									{errors.price?.message && (
+										<span className={styles.error}>
+											{errors.price?.message}
+										</span>
+									)}
+								</div>
 								<input
-									type="number"
+									formNoValidate
 									id="price"
-									required
-									{...register("price", { min: 0.01 })}
+									{...register("price", {
+										min: 0.01,
+										required: "Required",
+										pattern: {
+											value: /[0-9.]/,
+											message: "Numbers only"
+										}
+									})}
 									step="0.01"
 									placeholder="0.00"
 								/>
 							</div>
 							<div className={styles.input_group}>
-								<label htmlFor="SKU">SKU</label>
+								<div className={styles.label_group}>
+									<label
+										htmlFor="SKU"
+										className={errors.SKU?.message ? styles.error : null}
+									>
+										SKU
+									</label>
+									{errors.SKU?.message && (
+										<span className={styles.error}>{errors.SKU?.message}</span>
+									)}
+								</div>
 								<input
-									type="number"
+									formNoValidate
 									id="SKU"
-									required
-									{...register("SKU")}
+									{...register("SKU", {
+										required: "Required",
+										pattern: {
+											value: /[0-9]/,
+											message: "Numbers only"
+										}
+									})}
 									placeholder="Add product SKU..."
 								/>
 							</div>
 						</div>
 					</div>
-					<label htmlFor="size">Size</label>
+					<div className={styles.label_group}>
+						<label
+							htmlFor="size"
+							className={errors.size?.message ? styles.error : null}
+						>
+							Size
+						</label>
+						{errors.size?.message && (
+							<span className={styles.error}>{errors.size?.message}</span>
+						)}
+					</div>
 					<input
+						formNoValidate
 						id="size"
-						required
-						{...register("size")}
+						{...register("size", {
+							required: "Required"
+						})}
 						placeholder="Add product size..."
 					/>
 				</div>
