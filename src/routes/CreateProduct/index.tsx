@@ -8,6 +8,8 @@ import styles from "@/styles/routes/createProduct.module.css";
 
 // Types
 import { ProductState } from "@/types/product";
+
+// Redux
 import {
 	useAddNewProductMutation,
 	useGetAllProductsQuery

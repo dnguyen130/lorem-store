@@ -32,3 +32,13 @@ main {
 	width: 100vw;
 	padding: 20px;
 }
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 200vw;
+	height: 200vh;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.4);
+}
