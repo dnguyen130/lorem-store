@@ -1,7 +1,9 @@
 // Packages
-import { ReactElement, useState } from "react";
+import { ReactElement, useState, useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
+
+import CreateModal from "@/components/createModal";
 
 // Styles
 import styles from "@/styles/routes/createProduct.module.css";
@@ -14,20 +16,27 @@ import {
 	useAddNewProductMutation,
 	useGetAllProductsQuery
 } from "@/features/product/productSlice";
+import { useAppSelector, useAppDispatch } from "@/app/hooks";
+import { setIsCreateProductModal } from "@/features/modal/modalSlice";
 
 const MAX_FILE_SIZE = 5120;
 
 export default function CreateProduct(): ReactElement {
+	const isCreateProductModal = useAppSelector(
+		(state) => state.modal.isCreateProductModal
+	);
+	const dispatch = useAppDispatch();
+	const [addNewProduct] = useAddNewProductMutation();
+	const { refetch } = useGetAllProductsQuery("");
 	const {
 		register,
 		handleSubmit,
 		reset,
 		formState: { errors }
 	} = useForm<ProductState>();
-	const [preview, setPreview] = useState<string>("");
+
 	const [image, setImage] = useState<Blob>(new Blob());
-	const [addNewProduct] = useAddNewProductMutation();
-	const { refetch } = useGetAllProductsQuery("");
+	const [preview, setPreview] = useState<string>("");
 
 	function HandleImageChange(e: React.ChangeEvent<HTMLInputElement>): void {
 		const file = e.target.files ? (e.target.files[0] as Blob) : null;
@@ -71,8 +80,14 @@ export default function CreateProduct(): ReactElement {
 		}
 	};
 
+	const formElement = useRef<HTMLFormElement>(null);
+
 	return (
-		<form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+		<form
+			className={styles.container}
+			onSubmit={handleSubmit(onSubmit)}
+			ref={formElement}
+		>
 			<div className={styles.row}>
 				<div className={`${styles.column} ${styles.spaced}`}>
 					<img src={preview ? preview : "/default.jpg"} alt="image preview" />
@@ -259,7 +274,15 @@ export default function CreateProduct(): ReactElement {
 				</div>
 			</div>
 			<div className={styles.submit_row}>
-				<input className={styles.submit} type="submit" value="Create Product" />
+				<button
+					onClick={() =>
+						dispatch(setIsCreateProductModal(!isCreateProductModal))
+					}
+					type="button"
+					className={styles.submit}
+				>
+					Create Product
+				</button>
 				<button
 					className={styles.clear}
 					type="button"
@@ -270,6 +293,11 @@ export default function CreateProduct(): ReactElement {
 					Clear
 				</button>
 			</div>
+			<CreateModal
+				onClick={() => {
+					formElement.current?.requestSubmit;
+				}}
+			/>
 		</form>
 	);
 }

@@ -1,9 +1,10 @@
 // Components
 import Nav from "./components/nav";
-import CreateModal from "./components/createModal";
 
 // React Router
 import { Outlet } from "react-router-dom";
+
+// Redux
 
 export default function App() {
 	return (
@@ -11,7 +12,6 @@ export default function App() {
 			<Nav />
 			<main>
 				<Outlet />
-				<CreateModal />
 			</main>
 		</>
 	);
