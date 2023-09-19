@@ -82,8 +82,9 @@ input[type="number"] {
 }
 
 .input_row {
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
 }
 
 .submit,
@@ -116,27 +117,24 @@ input[type="number"] {
 	background-color: var(--color-danger-700);
 }
 
-input {
+input,
+textarea {
 	padding: 5px;
+	border-radius: 3px;
+	border-color: var(--black);
+	border-width: 1px;
 }
 
-/* input:invalid:required,
-textarea:invalid:required {
-	border: 1px solid var(--color-danger-500);
+.input_error {
+	background-color: var(--color-danger-100);
 }
-
-input:invalid:required:focus,
-textarea:invalid:required:focus {
-	outline-color: var(--color-danger-500);
-} */
 
 input:focus,
 textarea:focus {
 	outline-color: var(--color-info-500);
 	outline-style: solid;
-	border-radius: 2px;
+	outline-width: 2px;
 	border-color: transparent;
-	border: 2px solid var(--color-info-500);
 }
 
 .spaced {

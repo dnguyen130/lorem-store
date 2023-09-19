@@ -1,9 +1,9 @@
 // Packages
 import { ReactElement, useState, useRef } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import axios from "axios";
 
-import CreateModal from "@/components/createModal";
+import CreateModal from "@/components/modals/createModal";
 
 // Styles
 import styles from "@/styles/routes/createProduct.module.css";
@@ -16,20 +16,17 @@ import {
 	useAddNewProductMutation,
 	useGetProductsByPageQuery
 } from "@/features/product/productSlice";
-import { useAppSelector, useAppDispatch } from "@/app/hooks";
-import {
-	selectIsCreateProductModal,
-	setIsCreateProductModal
-} from "@/features/modal/modalSlice";
+import { useAppDispatch } from "@/app/hooks";
+import { setIsCreateProductModal } from "@/features/modal/modalSlice";
 import {
 	setActiveProduct,
 	clearActiveProduct
 } from "@/features/product/productSlice";
+import { NumericFormat } from "react-number-format";
 
 const MAX_FILE_SIZE = 5120;
 
 export default function CreateProduct(): ReactElement {
-	const isCreateProductModal = useAppSelector(selectIsCreateProductModal);
 	const dispatch = useAppDispatch();
 	const [addNewProduct] = useAddNewProductMutation();
 	const { refetch } = useGetProductsByPageQuery("1");
@@ -38,8 +35,16 @@ export default function CreateProduct(): ReactElement {
 		handleSubmit,
 		reset,
 		watch,
+		trigger,
+		control,
 		formState: { errors }
-	} = useForm<ProductState>();
+	} = useForm<ProductState>({
+		mode: "onBlur",
+		defaultValues: {
+			SKU: 0,
+			price: 0
+		}
+	});
 
 	const watchAllFields = watch();
 
@@ -144,12 +149,14 @@ export default function CreateProduct(): ReactElement {
 							id="name"
 							{...register("name", {
 								required: "Required",
+								onBlur: () => trigger("name"),
 								maxLength: {
 									value: 80,
 									message: "Name exceeds limit"
 								}
 							})}
 							placeholder="Add product name..."
+							className={errors.name ? styles.input_error : null}
 						/>
 					</div>
 					<div className={styles.input_row}>
@@ -157,7 +164,7 @@ export default function CreateProduct(): ReactElement {
 							<div className={styles.label_group}>
 								<label
 									htmlFor="brand"
-									className={errors.brand?.message ? styles.error : null}
+									className={errors.brand ? styles.error : null}
 								>
 									Brand
 								</label>
@@ -169,9 +176,11 @@ export default function CreateProduct(): ReactElement {
 								formNoValidate
 								id="brand"
 								{...register("brand", {
+									onBlur: () => trigger("brand"),
 									required: "Required"
 								})}
 								placeholder="Add product brand..."
+								className={errors.brand ? styles.input_error : null}
 							/>
 						</div>
 						<div className={styles.input_group}>
@@ -182,7 +191,7 @@ export default function CreateProduct(): ReactElement {
 								>
 									Category
 								</label>
-								{errors.category?.message && (
+								{errors.category && (
 									<span className={styles.error}>
 										{errors.category?.message}
 									</span>
@@ -192,9 +201,11 @@ export default function CreateProduct(): ReactElement {
 								formNoValidate
 								id="category"
 								{...register("category", {
+									onBlur: () => trigger("category"),
 									required: "Required"
 								})}
 								placeholder="Add product category..."
+								className={errors.category ? styles.input_error : null}
 							/>
 						</div>
 					</div>
@@ -215,62 +226,85 @@ export default function CreateProduct(): ReactElement {
 						<textarea
 							id="desc"
 							rows={5}
-							{...register("description", { required: "Required" })}
+							{...register("description", {
+								onBlur: () => trigger("description"),
+								required: "Required"
+							})}
 							placeholder="Add a description to your product..."
+							className={errors.description ? styles.input_error : null}
 						/>
 						<div className={styles.input_row}>
 							<div className={styles.input_group}>
 								<div className={styles.label_group}>
 									<label
 										htmlFor="price"
-										className={errors.price?.message ? styles.error : null}
+										className={errors.price ? styles.error : null}
 									>
 										Price
 									</label>
-									{errors.price?.message && (
-										<span className={styles.error}>
-											{errors.price?.message}
-										</span>
+									{errors.price?.type === "max" && (
+										<span className={styles.error}>max is 10000</span>
+									)}
+									{errors.price?.type === "min" && (
+										<span className={styles.error}>min is $0.01</span>
 									)}
 								</div>
-								<input
-									formNoValidate
-									id="price"
-									{...register("price", {
-										min: 0.01,
-										required: "Required",
-										pattern: {
-											value: /^[1-9]\d{0,3}(?:\.\d{1,2})?/,
-											message: "Invalid Price Format"
-										}
-									})}
-									step="0.01"
-									placeholder="0.00"
+								<Controller
+									control={control}
+									name="price"
+									rules={{ min: 0.01, max: 10000, required: true }}
+									render={({ field: { onChange, onBlur, value, name } }) => (
+										<NumericFormat
+											allowNegative={false}
+											decimalScale={2}
+											fixedDecimalScale
+											prefix="$ "
+											value={value}
+											name={name}
+											onValueChange={(v) => onChange(v.value)}
+											placeholder="0.00"
+											className={errors.price ? styles.input_error : null}
+											onBlur={onBlur}
+										/>
+									)}
 								/>
 							</div>
 							<div className={styles.input_group}>
 								<div className={styles.label_group}>
 									<label
 										htmlFor="SKU"
-										className={errors.SKU?.message ? styles.error : null}
+										className={errors.SKU ? styles.error : null}
 									>
 										SKU
 									</label>
-									{errors.SKU?.message && (
-										<span className={styles.error}>{errors.SKU?.message}</span>
+									{errors.SKU?.type === "minLength" ||
+										(errors.SKU?.type === "min" && (
+											<span className={styles.error}>Min length 8</span>
+										))}
+									{errors.SKU?.type === "maxLength" && (
+										<span className={styles.error}>Max length 12</span>
 									)}
 								</div>
-								<input
-									formNoValidate
-									id="SKU"
-									{...register("SKU", {
-										required: "Required",
-										pattern: {
-											value: /[0-9]/,
-											message: "Numbers only"
-										}
-									})}
-									placeholder="Add product SKU..."
+								<Controller
+									control={control}
+									name="SKU"
+									rules={{
+										minLength: 8,
+										maxLength: 12,
+										required: true,
+										min: 1
+									}}
+									render={({ field: { onChange, value, name, onBlur } }) => (
+										<NumericFormat
+											decimalScale={0}
+											value={value}
+											name={name}
+											onValueChange={(v) => onChange(v.value)}
+											placeholder="Add Product SKU"
+											className={errors.SKU ? styles.input_error : null}
+											onBlur={onBlur}
+										/>
+									)}
 								/>
 							</div>
 						</div>
@@ -282,7 +316,7 @@ export default function CreateProduct(): ReactElement {
 						>
 							Size
 						</label>
-						{errors.size?.message && (
+						{errors.size && (
 							<span className={styles.error}>{errors.size?.message}</span>
 						)}
 					</div>
@@ -293,14 +327,20 @@ export default function CreateProduct(): ReactElement {
 							required: "Required"
 						})}
 						placeholder="Add product size..."
+						className={errors.size ? styles.input_error : null}
 					/>
 				</div>
 			</div>
 			<div className={styles.submit_row}>
 				<button
-					onClick={() => {
-						dispatch(setIsCreateProductModal(!isCreateProductModal)),
+					onClick={async () => {
+						const res = await trigger();
+						if (res) {
+							dispatch(setIsCreateProductModal(true));
 							dispatch(setActiveProduct(watchAllFields));
+						} else {
+							console.log(errors);
+						}
 					}}
 					type="button"
 					className={styles.submit}
@@ -319,12 +359,7 @@ export default function CreateProduct(): ReactElement {
 			</div>
 			<CreateModal
 				onClick={() => {
-					if (Object.keys(errors).length === 0) {
-						formElement.current?.requestSubmit;
-					} else {
-						alert("Error creating product. Please fix invalid fields.");
-						dispatch(setIsCreateProductModal(false));
-					}
+					formElement.current?.requestSubmit;
 				}}
 			/>
 		</form>
