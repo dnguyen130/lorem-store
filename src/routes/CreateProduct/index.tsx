@@ -14,26 +14,34 @@ import { ProductState } from "@/types/product";
 // Redux
 import {
 	useAddNewProductMutation,
-	useGetAllProductsQuery
+	useGetProductsByPageQuery
 } from "@/features/product/productSlice";
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
-import { setIsCreateProductModal } from "@/features/modal/modalSlice";
+import {
+	selectIsCreateProductModal,
+	setIsCreateProductModal
+} from "@/features/modal/modalSlice";
+import {
+	setActiveProduct,
+	clearActiveProduct
+} from "@/features/product/productSlice";
 
 const MAX_FILE_SIZE = 5120;
 
 export default function CreateProduct(): ReactElement {
-	const isCreateProductModal = useAppSelector(
-		(state) => state.modal.isCreateProductModal
-	);
+	const isCreateProductModal = useAppSelector(selectIsCreateProductModal);
 	const dispatch = useAppDispatch();
 	const [addNewProduct] = useAddNewProductMutation();
-	const { refetch } = useGetAllProductsQuery("");
+	const { refetch } = useGetProductsByPageQuery("1");
 	const {
 		register,
 		handleSubmit,
 		reset,
+		watch,
 		formState: { errors }
 	} = useForm<ProductState>();
+
+	const watchAllFields = watch();
 
 	const [image, setImage] = useState<Blob>(new Blob());
 	const [preview, setPreview] = useState<string>("");
@@ -53,16 +61,22 @@ export default function CreateProduct(): ReactElement {
 
 	const onSubmit: SubmitHandler<ProductState> = async (data) => {
 		const formData = new FormData();
-		formData.append("file", image);
-		formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
+		let image_url;
 		try {
-			const cloud_res = await axios.post(
-				`https://api.cloudinary.com/v1_1/${
-					import.meta.env.VITE_CLOUD_NAME
-				}/image/upload`,
-				formData
-			);
-			const image_url = cloud_res.data.secure_url;
+			if (image.size !== 0) {
+				formData.append("file", image);
+				formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET);
+				const cloud_res = await axios.post(
+					`https://api.cloudinary.com/v1_1/${
+						import.meta.env.VITE_CLOUD_NAME
+					}/image/upload`,
+					formData
+				);
+				image_url = cloud_res.data.secure_url;
+			} else {
+				image_url =
+					"https://res.cloudinary.com/dpc1qjocu/image/upload/v1695069291/default_acbtxk.jpg";
+			}
 			const res = await addNewProduct({
 				name: data.name,
 				brand: data.brand,
@@ -74,6 +88,8 @@ export default function CreateProduct(): ReactElement {
 				size: data.size
 			});
 			console.log(res);
+			alert("Product successfully created!");
+			dispatch(setIsCreateProductModal(false));
 			refetch();
 		} catch (err) {
 			console.log(err);
@@ -90,7 +106,14 @@ export default function CreateProduct(): ReactElement {
 		>
 			<div className={styles.row}>
 				<div className={`${styles.column} ${styles.spaced}`}>
-					<img src={preview ? preview : "/default.jpg"} alt="image preview" />
+					<img
+						src={
+							preview
+								? preview
+								: "https://res.cloudinary.com/dpc1qjocu/image/upload/v1695069291/default_acbtxk.jpg"
+						}
+						alt="image preview"
+					/>
 					<label htmlFor="image" className={styles.image_label}>
 						Upload Image
 					</label>
@@ -217,8 +240,8 @@ export default function CreateProduct(): ReactElement {
 										min: 0.01,
 										required: "Required",
 										pattern: {
-											value: /[0-9.]/,
-											message: "Numbers only"
+											value: /^[1-9]\d{0,3}(?:\.\d{1,2})?/,
+											message: "Invalid Price Format"
 										}
 									})}
 									step="0.01"
@@ -275,9 +298,10 @@ export default function CreateProduct(): ReactElement {
 			</div>
 			<div className={styles.submit_row}>
 				<button
-					onClick={() =>
-						dispatch(setIsCreateProductModal(!isCreateProductModal))
-					}
+					onClick={() => {
+						dispatch(setIsCreateProductModal(!isCreateProductModal)),
+							dispatch(setActiveProduct(watchAllFields));
+					}}
 					type="button"
 					className={styles.submit}
 				>
@@ -287,7 +311,7 @@ export default function CreateProduct(): ReactElement {
 					className={styles.clear}
 					type="button"
 					onClick={() => {
-						reset();
+						reset(), clearActiveProduct();
 					}}
 				>
 					Clear
@@ -295,7 +319,12 @@ export default function CreateProduct(): ReactElement {
 			</div>
 			<CreateModal
 				onClick={() => {
-					formElement.current?.requestSubmit;
+					if (Object.keys(errors).length === 0) {
+						formElement.current?.requestSubmit;
+					} else {
+						alert("Error creating product. Please fix invalid fields.");
+						dispatch(setIsCreateProductModal(false));
+					}
 				}}
 			/>
 		</form>

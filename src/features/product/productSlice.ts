@@ -1,11 +1,39 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ProductState } from "@/types/product";
 import { BASE_URL } from "@/utils/variables";
+import { PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "@/app/store";
 
 interface QueryType {
 	data: ProductState[];
 	meta: number;
 }
+
+const initialState: ProductState = {
+	name: "",
+	description: "",
+	brand: "",
+	image: "",
+	SKU: 0,
+	category: "",
+	size: "",
+	price: 0
+};
+
+export const productSlice = createSlice({
+	name: "activeproduct",
+	initialState,
+	reducers: {
+		setActiveProduct: (
+			_state: ProductState,
+			payload: PayloadAction<ProductState>
+		) => {
+			return payload.payload;
+		},
+		clearActiveProduct: () => initialState
+	}
+});
 
 export const productApi = createApi({
 	reducerPath: "product",
@@ -13,8 +41,8 @@ export const productApi = createApi({
 		baseUrl: BASE_URL
 	}),
 	endpoints: (builder) => ({
-		getAllProducts: builder.query<QueryType, string>({
-			query: () => `product`
+		getProductsByPage: builder.query<QueryType, string>({
+			query: (page) => `product/?page=${page}`
 		}),
 		addNewProduct: builder.mutation({
 			query: (payload) => ({
@@ -29,4 +57,10 @@ export const productApi = createApi({
 	})
 });
 
-export const { useGetAllProductsQuery, useAddNewProductMutation } = productApi;
+export const { useGetProductsByPageQuery, useAddNewProductMutation } =
+	productApi;
+
+export const { setActiveProduct, clearActiveProduct } = productSlice.actions;
+
+export const selectActiveProduct = (state: RootState) => state.activeProduct;
+export default productSlice.reducer;

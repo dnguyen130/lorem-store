@@ -6,4 +6,37 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background-color: var(--white);
+	z-index: 10;
+	padding: 10px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+
+	.content {
+		display: flex;
+		flex-direction: column;
+	}
+
+	h2 {
+		text-align: center;
+	}
+
+	h3 {
+		margin: 5px 0;
+	}
+
+	p {
+		margin: 2px 0;
+	}
+}
+
+.row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.button_row {
+	display: flex;
+	justify-content: center;
 }

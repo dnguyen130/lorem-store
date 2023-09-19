@@ -8,14 +8,18 @@ import styles from "@/styles/routes/productGrid.module.css";
 import { ProductState } from "@/types/product";
 
 //Redux
-import { useGetAllProductsQuery } from "@/features/product/productSlice";
+import { useGetProductsByPageQuery } from "@/features/product/productSlice";
+import { useAppSelector, useAppDispatch } from "@/app/hooks";
+import { setIsProductModal } from "@/features/modal/modalSlice";
 
 //Components
 import ProductCard from "@/components/productCard";
+import ActiveProductModal from "@/components/activeProductModal";
 
 export default function Home(): ReactElement {
 	const [products, setProducts] = useState<ProductState[] | never[]>([]);
-	const { data } = useGetAllProductsQuery("");
+	const { data } = useGetProductsByPageQuery("1");
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		if (data && data.data !== products) {
@@ -25,6 +29,7 @@ export default function Home(): ReactElement {
 
 	return (
 		<div className={styles.grid}>
+			<ActiveProductModal />
 			{products.map((o: ProductState) => {
 				return (
 					<ProductCard
@@ -34,6 +39,7 @@ export default function Home(): ReactElement {
 						imageURL={o.image}
 						size={o.size}
 						brand={o.brand}
+						onClick={() => dispatch(setIsProductModal(true))}
 					/>
 				);
 			})}

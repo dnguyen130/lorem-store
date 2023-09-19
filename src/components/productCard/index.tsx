@@ -7,6 +7,7 @@ interface ProductCardType {
 	imageURL: string;
 	size: string;
 	brand: string;
+	onClick: () => void;
 }
 
 export default function ProductCard({
@@ -14,16 +15,17 @@ export default function ProductCard({
 	price,
 	imageURL,
 	size,
-	brand
+	brand,
+	onClick
 }: ProductCardType): ReactElement {
 	return (
-		<div className={styles.cardContainer}>
+		<div className={styles.cardContainer} onClick={onClick}>
 			<img src={imageURL} />
 			<p className={styles.brand}>{brand}</p>
 			<p className={styles.name}>{name}</p>
 			<p className={styles.price}>${price}</p>
 			<p className={styles.size}>{size}</p>
-			<button>Add to Cart</button>
+			<button onClick={(e) => e.stopPropagation}>Add to Cart</button>
 		</div>
 	);
 }
