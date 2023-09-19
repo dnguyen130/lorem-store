@@ -8,6 +8,7 @@ import { RootState } from "@/app/store";
 interface QueryType {
 	data: ProductState[];
 	meta: number;
+	listsPerPage: number;
 }
 
 const initialState: ProductState = {

@@ -1,13 +1,13 @@
 .container {
-	width: 400px;
-	height: 300px;
+	width: 500px;
+	height: 350px;
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background-color: var(--white);
 	z-index: 10;
-	padding: 10px;
+	padding: 20px;
 	border-radius: 5px;
 	display: flex;
 	justify-content: space-between;
@@ -29,6 +29,24 @@
 	p {
 		margin: 2px 0;
 	}
+
+	button {
+		border: none;
+		padding: 10px 30px;
+		border-radius: 5px;
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--white);
+		cursor: pointer;
+	}
+}
+
+.submit {
+	background-color: var(--color-success-500);
+}
+
+.cancel {
+	background-color: var(--color-danger-500);
 }
 
 .row {
@@ -39,4 +57,5 @@
 .button_row {
 	display: flex;
 	justify-content: center;
+	gap: 40px;
 }

@@ -9,12 +9,11 @@ import { ProductState } from "@/types/product";
 
 //Redux
 import { useGetProductsByPageQuery } from "@/features/product/productSlice";
-import { useAppSelector, useAppDispatch } from "@/app/hooks";
+import { useAppDispatch } from "@/app/hooks";
 import { setIsProductModal } from "@/features/modal/modalSlice";
 
 //Components
 import ProductCard from "@/components/productCard";
-import ActiveProductModal from "@/components/activeProductModal";
 
 export default function Home(): ReactElement {
 	const [products, setProducts] = useState<ProductState[] | never[]>([]);
@@ -28,21 +27,22 @@ export default function Home(): ReactElement {
 	}, [data, products]);
 
 	return (
-		<div className={styles.grid}>
-			<ActiveProductModal />
-			{products.map((o: ProductState) => {
-				return (
-					<ProductCard
-						key={o.id}
-						name={o.name}
-						price={o.price}
-						imageURL={o.image}
-						size={o.size}
-						brand={o.brand}
-						onClick={() => dispatch(setIsProductModal(true))}
-					/>
-				);
-			})}
+		<div className={styles.container}>
+			<div className={styles.grid}>
+				{products.map((o: ProductState) => {
+					return (
+						<ProductCard
+							key={o.id}
+							name={o.name}
+							price={o.price}
+							imageURL={o.image}
+							size={o.size}
+							brand={o.brand}
+							onClick={() => dispatch(setIsProductModal(true))}
+						/>
+					);
+				})}
+			</div>
 		</div>
 	);
 }

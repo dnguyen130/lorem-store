@@ -66,12 +66,15 @@ export default function CreateModal({
 						</div>
 					</div>
 					<div className={styles.button_row}>
-						<button onClick={onClick}>Submit</button>
+						<button onClick={onClick} className={styles.submit}>
+							Submit
+						</button>
 						<button
 							type="button"
 							onClick={() => {
 								dispatch(setIsCreateProductModal(false)), clearActiveProduct();
 							}}
+							className={styles.cancel}
 						>
 							Cancel
 						</button>
