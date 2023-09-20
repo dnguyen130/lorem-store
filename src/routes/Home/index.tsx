@@ -1,31 +1,38 @@
-// React
+// Packages
 import { ReactElement, useState, useEffect } from "react";
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 
 // Styles
-import styles from "@/styles/routes/productGrid.module.css";
+import styles from "@/styles/routes/home.module.css";
 
 // Types
 import { ProductState } from "@/types/product";
 
 //Redux
 import { useGetProductsByPageQuery } from "@/features/product/productSlice";
-import { useAppDispatch } from "@/app/hooks";
-import { setIsProductModal } from "@/features/modal/modalSlice";
 
 //Components
 import ProductCard from "@/components/productCard";
-import ActiveProductModal from "@/components/modals/activeProductModal";
 
 export default function Home(): ReactElement {
 	const [products, setProducts] = useState<ProductState[] | never[]>([]);
-	const { data } = useGetProductsByPageQuery("1");
-	const dispatch = useAppDispatch();
+	const [totalPages, setTotalPages] = useState<number>(0);
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const { data, isLoading, isFetching } = useGetProductsByPageQuery(
+		String(currentPage)
+	);
 
 	useEffect(() => {
 		if (data && data.data !== products) {
+			const totalProducts = Number(data?.total[0]["COUNT(*)"]);
 			setProducts(data.data);
+			setTotalPages(Math.ceil(totalProducts / data.listsPerPage));
 		}
 	}, [data, products]);
+
+	if (isLoading) {
+		return <div>Loading</div>;
+	}
 
 	return (
 		<div className={styles.container}>
@@ -39,12 +46,28 @@ export default function Home(): ReactElement {
 							imageURL={o.image}
 							size={o.size}
 							brand={o.brand}
-							onClick={() => dispatch(setIsProductModal(true))}
+							onClick={() => console.log("yo")}
 						/>
 					);
 				})}
 			</div>
-			<ActiveProductModal />
+			<div className={styles.pagination}>
+				<button
+					onClick={() => setCurrentPage(currentPage - 1)}
+					disabled={currentPage === 1}
+				>
+					<GrFormPrevious size="100%" />
+				</button>
+				<div>
+					{currentPage} / {totalPages}
+				</div>
+				<button
+					onClick={() => setCurrentPage(currentPage + 1)}
+					disabled={currentPage === totalPages}
+				>
+					<GrFormNext size="100%" />
+				</button>
+			</div>
 		</div>
 	);
 }

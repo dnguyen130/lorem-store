@@ -9,6 +9,7 @@ interface QueryType {
 	data: ProductState[];
 	meta: number;
 	listsPerPage: number;
+	total: Record<string, string>[];
 }
 
 const initialState: ProductState = {
