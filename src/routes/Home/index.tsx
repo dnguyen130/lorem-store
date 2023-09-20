@@ -14,6 +14,7 @@ import { setIsProductModal } from "@/features/modal/modalSlice";
 
 //Components
 import ProductCard from "@/components/productCard";
+import ActiveProductModal from "@/components/modals/activeProductModal";
 
 export default function Home(): ReactElement {
 	const [products, setProducts] = useState<ProductState[] | never[]>([]);
@@ -43,6 +44,7 @@ export default function Home(): ReactElement {
 					);
 				})}
 			</div>
+			<ActiveProductModal />
 		</div>
 	);
 }

@@ -9,13 +9,7 @@ import styles from "@/styles/components/createModal.module.css";
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
 import { setIsProductModal } from "@/features/modal/modalSlice";
 
-interface CreateModalType {
-	onClick: () => void;
-}
-
-export default function ActiveProductModal({
-	onClick
-}: CreateModalType): ReactElement {
+export default function ActiveProductModal(): ReactElement {
 	const dispatch = useAppDispatch();
 	const isProductModal = useAppSelector((state) => state.modal.isProductModal);
 
@@ -29,7 +23,7 @@ export default function ActiveProductModal({
 					exit={{ opacity: 0 }}
 				>
 					<h2>Confirm Product Creation</h2>
-					<button onClick={onClick}>Submit</button>
+					<button>Submit</button>
 					<button
 						type="button"
 						onClick={() => dispatch(setIsProductModal(false))}
