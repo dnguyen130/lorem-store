@@ -1,5 +1,5 @@
 export interface ProductState {
-	id?: number;
+	id: number;
 	name: string;
 	description: string;
 	brand: string;

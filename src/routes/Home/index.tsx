@@ -46,7 +46,7 @@ export default function Home(): ReactElement {
 							imageURL={o.image}
 							size={o.size}
 							brand={o.brand}
-							onClick={() => console.log("yo")}
+							id={o.id}
 						/>
 					);
 				})}

@@ -13,6 +13,7 @@ interface QueryType {
 }
 
 const initialState: ProductState = {
+	id: -1,
 	name: "",
 	description: "",
 	brand: "",
