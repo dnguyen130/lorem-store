@@ -54,18 +54,28 @@ export default function Home(): ReactElement {
 			<div className={styles.pagination}>
 				<button
 					onClick={() => setCurrentPage(currentPage - 1)}
+					className={styles.prev}
 					disabled={currentPage === 1}
 				>
-					<GrFormPrevious size="100%" />
+					{isFetching ? (
+						<div className={styles.loader} />
+					) : (
+						<GrFormPrevious size="100%" />
+					)}
 				</button>
 				<div>
 					{currentPage} / {totalPages}
 				</div>
 				<button
 					onClick={() => setCurrentPage(currentPage + 1)}
+					className={styles.next}
 					disabled={currentPage === totalPages}
 				>
-					<GrFormNext size="100%" />
+					{isFetching ? (
+						<div className={styles.loader} />
+					) : (
+						<GrFormNext size="100%" />
+					)}
 				</button>
 			</div>
 		</div>
