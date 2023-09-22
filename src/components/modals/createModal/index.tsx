@@ -7,11 +7,11 @@ import styles from "@/styles/components/createModal.module.css";
 
 // Redux
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
-import { setIsCreateProductModal } from "@/features/modal/modalSlice";
+import { setIsCreateProductModal } from "@/slices/modal/modalSlice";
 import {
 	clearActiveProduct,
 	selectActiveProduct
-} from "@/features/product/productSlice";
+} from "@/slices/product/productSlice";
 
 interface CreateModalType {
 	onClick: () => void;

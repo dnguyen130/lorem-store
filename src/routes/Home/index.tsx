@@ -9,12 +9,12 @@ import styles from "@/styles/routes/home.module.css";
 import { ProductState } from "@/types/product";
 
 //Redux
-import { useGetProductsByPageQuery } from "@/features/product/productSlice";
+import { useGetProductsByPageQuery } from "@/slices/product/productSlice";
 import { useAppDispatch } from "@/app/hooks";
 import {
 	setActiveProduct,
 	clearActiveProduct
-} from "@/features/product/productSlice";
+} from "@/slices/product/productSlice";
 
 //Components
 import ProductCard from "@/components/productCard";

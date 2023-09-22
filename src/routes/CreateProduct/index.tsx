@@ -15,13 +15,13 @@ import { ProductState } from "@/types/product";
 import {
 	useAddNewProductMutation,
 	useGetProductsByPageQuery
-} from "@/features/product/productSlice";
+} from "@/slices/product/productSlice";
 import { useAppDispatch } from "@/app/hooks";
-import { setIsCreateProductModal } from "@/features/modal/modalSlice";
+import { setIsCreateProductModal } from "@/slices/modal/modalSlice";
 import {
 	setActiveProduct,
 	clearActiveProduct
-} from "@/features/product/productSlice";
+} from "@/slices/product/productSlice";
 import { NumericFormat } from "react-number-format";
 
 const MAX_FILE_SIZE = 5120;

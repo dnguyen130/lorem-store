@@ -5,8 +5,8 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
 	selectIsCreateProductModal,
 	setIsCreateProductModal
-} from "@/features/modal/modalSlice";
-import { clearActiveProduct } from "@/features/product/productSlice";
+} from "@/slices/modal/modalSlice";
+import { clearActiveProduct } from "@/slices/product/productSlice";
 
 export default function Overlay(): ReactElement {
 	const dispatch = useAppDispatch();

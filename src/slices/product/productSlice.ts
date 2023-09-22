@@ -56,12 +56,19 @@ export const productApi = createApi({
 					"Content-type": "application/json; charset=UTF-8"
 				}
 			})
+		}),
+		getProductById: builder.query<ProductState, string>({
+			query: (id) => `product/${id}`
 		})
 	})
 });
 
-export const { useGetProductsByPageQuery, useAddNewProductMutation } =
-	productApi;
+export const {
+	useGetProductsByPageQuery,
+	useAddNewProductMutation,
+	useGetProductByIdQuery,
+	usePrefetch
+} = productApi;
 
 export const { setActiveProduct, clearActiveProduct } = productSlice.actions;
 

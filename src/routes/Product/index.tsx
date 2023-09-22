@@ -5,7 +5,7 @@ import styles from "@/styles/routes/product.module.css";
 import { useParams } from "react-router-dom";
 
 import { useAppSelector } from "@/app/hooks";
-import { selectActiveProduct } from "@/features/product/productSlice";
+import { selectActiveProduct } from "@/slices/product/productSlice";
 
 export default function ProductPage(): ReactElement {
 	const activeProduct = useAppSelector(selectActiveProduct);
