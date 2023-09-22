@@ -157,3 +157,33 @@ textarea:focus {
 .error span {
 	margin-left: 5px;
 }
+
+@media screen and (max-width: 768px) {
+	.row {
+		flex-direction: column;
+	}
+	.column {
+		width: 100%;
+	}
+
+	.submit_row {
+		display: flex;
+		justify-content: center;
+	}
+}
+
+@media screen and (max-width: 530px) {
+	.submit_row {
+		flex-direction: column;
+	}
+
+	.input_row {
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+
+	.submit,
+	.clear {
+		margin: 20px 0 0;
+	}
+}

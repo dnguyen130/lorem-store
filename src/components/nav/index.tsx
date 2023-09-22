@@ -11,14 +11,6 @@ const Links = [
 	{
 		title: "Create Product",
 		link: "createproduct"
-	},
-	{
-		title: "based",
-		link: "#"
-	},
-	{
-		title: "based",
-		link: "#"
 	}
 ];
 
