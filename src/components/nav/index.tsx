@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import styles from "../../styles/components/header.module.css";
-import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import styles from "../../styles/components/nav.module.css";
+import { FaShoppingCart } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const Links = [
@@ -22,13 +22,9 @@ export default function Nav(): ReactElement {
 					<h1>Lorem</h1>
 				</NavLink>
 				<div className={styles.headerRight}>
-					<input />
-					<div className={styles.icon}>
-						<FaSearch size="100%" />
-					</div>
-					<div className={styles.icon}>
+					<NavLink to="cart" className={styles.icon}>
 						<FaShoppingCart size="100%" />
-					</div>
+					</NavLink>
 				</div>
 			</div>
 			<div className={styles.row}>

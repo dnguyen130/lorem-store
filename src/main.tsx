@@ -21,6 +21,7 @@ axios.defaults.baseURL = "https://lorem-store-api-production.up.railway.app";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreateProduct from "./routes/CreateProduct/index.tsx";
 import ProductPage from "./routes/Product/index.tsx";
+import Cart from "./routes/Cart/index.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
 			{
 				path: ":productId",
 				element: <ProductPage />
+			},
+			{
+				path: "cart",
+				element: <Cart />
 			}
 		]
 	}
