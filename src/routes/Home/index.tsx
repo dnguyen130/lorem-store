@@ -10,6 +10,11 @@ import { ProductState } from "@/types/product";
 
 //Redux
 import { useGetProductsByPageQuery } from "@/features/product/productSlice";
+import { useAppDispatch } from "@/app/hooks";
+import {
+	setActiveProduct,
+	clearActiveProduct
+} from "@/features/product/productSlice";
 
 //Components
 import ProductCard from "@/components/productCard";
@@ -21,6 +26,7 @@ export default function Home(): ReactElement {
 	const { data, isLoading, isFetching } = useGetProductsByPageQuery(
 		String(currentPage)
 	);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		if (data && data.data !== products) {
@@ -43,10 +49,12 @@ export default function Home(): ReactElement {
 							key={o.id}
 							name={o.name}
 							price={o.price}
-							imageURL={o.image}
+							image={o.image}
 							size={o.size}
 							brand={o.brand}
 							id={o.id}
+							onMouseOver={() => dispatch(setActiveProduct(o))}
+							onMouseLeave={() => clearActiveProduct()}
 						/>
 					);
 				})}

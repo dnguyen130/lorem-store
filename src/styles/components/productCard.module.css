@@ -1,12 +1,19 @@
-.cardContainer {
+.card_container {
 	height: 350px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	padding: 10px;
+	margin: 10px;
+	text-decoration: none;
+	color: black;
+	position: relative;
 }
 
-.cardContainer figure {
+.card_container:visited {
+	color: black;
+}
+
+.card_container figure {
 	width: 100%;
 	margin: 0;
 	display: flex;
@@ -14,24 +21,24 @@
 	align-items: center;
 }
 
-.cardContainer img {
+.card_container img {
 	height: 150px;
 	max-width: 100%;
 	object-fit: contain;
 }
 
-.cardContainer figcaption {
+.card_container figcaption {
 	width: 100%;
 	font-size: 14px;
 	margin: 0;
 	font-weight: 600;
 }
 
-.cardContainer p {
+.card_container p {
 	margin: 0;
 }
 
-.cardContainer button {
+.card_container button {
 	background-color: var(--color-primary-500);
 	border: none;
 	border-radius: 5px;
@@ -40,9 +47,11 @@
 	color: var(--white);
 	font-weight: 600;
 	align-self: center;
+	cursor: pointer;
+	z-index: 3;
 }
 
-.cardContainer button:hover {
+.card_container button:hover {
 	background-color: var(--color-primary-700);
 }
 
@@ -52,4 +61,11 @@
 
 .name {
 	font-size: 14px;
+}
+
+.link_container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
 }

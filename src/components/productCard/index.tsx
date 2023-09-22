@@ -5,30 +5,43 @@ import { Link } from "react-router-dom";
 interface ProductCardType {
 	name: string;
 	price: number;
-	imageURL: string;
+	image: string;
 	size: string;
 	brand: string;
 	id: number;
+	onMouseOver: () => void;
+	onMouseLeave: () => void;
 }
 
 export default function ProductCard({
 	name,
 	price,
-	imageURL,
+	image,
 	size,
 	brand,
-	id
+	id,
+	onMouseOver,
+	onMouseLeave
 }: ProductCardType): ReactElement {
 	return (
-		<Link to={`products/${id}`}>
-			<div className={styles.cardContainer}>
-				<img src={imageURL} />
-				<p className={styles.brand}>{brand}</p>
-				<p className={styles.name}>{name}</p>
-				<p className={styles.price}>${price}</p>
-				<p className={styles.size}>{size}</p>
-				<button onClick={(e) => e.stopPropagation}>Add to Cart</button>
-			</div>
-		</Link>
+		<div
+			onMouseOver={onMouseOver}
+			onMouseLeave={onMouseLeave}
+			className={styles.card_container}
+		>
+			<Link to={`${id}`} className={styles.link_container} />
+			<img src={image} />
+			<p className={styles.brand}>{brand}</p>
+			<p className={styles.name}>{name}</p>
+			<p className={styles.price}>${price}</p>
+			<p className={styles.size}>{size}</p>
+			<button
+				onClick={(e) => {
+					e.preventDefault;
+				}}
+			>
+				Add to Cart
+			</button>
+		</div>
 	);
 }
