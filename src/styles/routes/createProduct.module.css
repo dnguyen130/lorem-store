@@ -83,7 +83,7 @@ input[type="number"] {
 
 .input_row {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 20px;
 }
 
@@ -159,6 +159,9 @@ textarea:focus {
 }
 
 @media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 640px) {
 	.row {
 		flex-direction: column;
 	}
@@ -169,17 +172,7 @@ textarea:focus {
 	.submit_row {
 		display: flex;
 		justify-content: center;
-	}
-}
-
-@media screen and (max-width: 530px) {
-	.submit_row {
 		flex-direction: column;
-	}
-
-	.input_row {
-		grid-template-columns: 1fr;
-		gap: 0;
 	}
 
 	.submit,

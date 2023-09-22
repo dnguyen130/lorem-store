@@ -34,3 +34,13 @@
 .container button:hover {
 	background-color: var(--color-primary-700);
 }
+
+@media screen and (max-width: 640px) {
+	.container {
+		grid-template-columns: 1fr;
+	}
+
+	.container img {
+		max-height: 300px;
+	}
+}

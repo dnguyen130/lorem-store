@@ -72,7 +72,7 @@ export default function Home(): ReactElement {
 					)}
 				</button>
 				<div>
-					{currentPage} / {totalPages}
+					Page <span>{currentPage}</span> / {totalPages}
 				</div>
 				<button
 					onClick={() => setCurrentPage(currentPage + 1)}

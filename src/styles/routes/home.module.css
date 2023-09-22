@@ -11,6 +11,10 @@
 	align-items: center;
 }
 
+.pagination span {
+	font-weight: 600;
+}
+
 .prev,
 .next {
 	width: 40px;

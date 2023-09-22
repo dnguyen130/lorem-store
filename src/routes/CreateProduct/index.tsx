@@ -155,7 +155,6 @@ export default function CreateProduct(): ReactElement {
 									message: "Name exceeds limit"
 								}
 							})}
-							placeholder="Add product name..."
 							className={errors.name ? styles.input_error : null}
 						/>
 					</div>
@@ -179,7 +178,6 @@ export default function CreateProduct(): ReactElement {
 									onBlur: () => trigger("brand"),
 									required: "Required"
 								})}
-								placeholder="Add product brand..."
 								className={errors.brand ? styles.input_error : null}
 							/>
 						</div>
@@ -204,7 +202,6 @@ export default function CreateProduct(): ReactElement {
 									onBlur: () => trigger("category"),
 									required: "Required"
 								})}
-								placeholder="Add product category..."
 								className={errors.category ? styles.input_error : null}
 							/>
 						</div>
@@ -230,7 +227,6 @@ export default function CreateProduct(): ReactElement {
 								onBlur: () => trigger("description"),
 								required: "Required"
 							})}
-							placeholder="Add a description to your product..."
 							className={errors.description ? styles.input_error : null}
 						/>
 						<div className={styles.input_row}>
@@ -262,7 +258,6 @@ export default function CreateProduct(): ReactElement {
 											value={value}
 											name={name}
 											onValueChange={(v) => onChange(v.value)}
-											placeholder="0.00"
 											className={errors.price ? styles.input_error : null}
 											onBlur={onBlur}
 										/>
@@ -300,7 +295,6 @@ export default function CreateProduct(): ReactElement {
 											value={value}
 											name={name}
 											onValueChange={(v) => onChange(v.value)}
-											placeholder="Add Product SKU"
 											className={errors.SKU ? styles.input_error : null}
 											onBlur={onBlur}
 										/>
@@ -326,7 +320,6 @@ export default function CreateProduct(): ReactElement {
 						{...register("size", {
 							required: "Required"
 						})}
-						placeholder="Add product size..."
 						className={errors.size ? styles.input_error : null}
 					/>
 				</div>
