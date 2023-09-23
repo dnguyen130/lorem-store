@@ -5,11 +5,15 @@ import { BASE_URL } from "@/utils/variables";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/app/store";
 
-interface QueryType {
+interface PageQueryType {
 	data: ProductState[];
 	meta: number;
 	listsPerPage: number;
 	total: Record<string, string>[];
+}
+
+interface ProductQueryType {
+	data: ProductState[];
 }
 
 const initialState: ProductState = {
@@ -44,7 +48,7 @@ export const productApi = createApi({
 		baseUrl: BASE_URL
 	}),
 	endpoints: (builder) => ({
-		getProductsByPage: builder.query<QueryType, string>({
+		getProductsByPage: builder.query<PageQueryType, string>({
 			query: (page) => `product/?page=${page}`
 		}),
 		addNewProduct: builder.mutation({
@@ -57,7 +61,7 @@ export const productApi = createApi({
 				}
 			})
 		}),
-		getProductById: builder.query<ProductState, string>({
+		getProductById: builder.query<ProductQueryType, string>({
 			query: (id) => `product/${id}`
 		})
 	})

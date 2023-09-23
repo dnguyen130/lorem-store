@@ -1,17 +1,32 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 
 import styles from "@/styles/routes/product.module.css";
 
 import { useParams } from "react-router-dom";
 
-import { useAppSelector } from "@/app/hooks";
-import { selectActiveProduct } from "@/slices/product/productSlice";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import {
+	selectActiveProduct,
+	useGetProductByIdQuery,
+	setActiveProduct
+} from "@/slices/product/productSlice";
 
 export default function ProductPage(): ReactElement {
 	const activeProduct = useAppSelector(selectActiveProduct);
-	const params = useParams();
+	const dispatch = useAppDispatch();
+	const { productId } = useParams();
+	const { data, isLoading } = useGetProductByIdQuery(String(productId));
 
-	console.log(params);
+	useEffect(() => {
+		if (data) {
+			const product = data.data[0];
+			dispatch(setActiveProduct(product));
+		}
+	});
+
+	if (isLoading && activeProduct.id === -1) {
+		return <div>Loading</div>;
+	}
 
 	return (
 		<div className={styles.container}>
@@ -23,7 +38,7 @@ export default function ProductPage(): ReactElement {
 				<h4>{activeProduct.brand}</h4>
 				<p>{activeProduct.description}</p>
 				<p>Price: {activeProduct.price}</p>
-				<button>Add to Cart</button>
+				<button onClick={() => console.log(activeProduct)}>Add to Cart</button>
 			</div>
 		</div>
 	);
