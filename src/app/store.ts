@@ -3,12 +3,14 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { productApi } from "../slices/product/productSlice";
 import modalReducer from "@/slices/modal/modalSlice";
 import activeProductReducer from "@/slices/product/productSlice";
+import userReducer from "@/slices/user/userSlice";
 
 export const store = configureStore({
 	reducer: {
 		[productApi.reducerPath]: productApi.reducer,
 		activeProduct: activeProductReducer,
-		modal: modalReducer
+		modal: modalReducer,
+		user: userReducer
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(productApi.middleware)
