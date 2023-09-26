@@ -3,11 +3,19 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/app/store";
 
 interface UserState {
-	isCreateProductModal: boolean;
+	id: number;
+	email: string;
+	password: string;
+	first_name: string;
+	last_name: string;
 }
 
 const initialState: UserState = {
-	isCreateProductModal: false
+	id: -1,
+	email: "",
+	password: "",
+	first_name: "",
+	last_name: ""
 };
 
 export const userSlice = createSlice({
