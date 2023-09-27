@@ -26,7 +26,7 @@ export default function Signup(): ReactElement {
 			first_name: data.first_name,
 			last_name: data.last_name
 		});
-		console.log(res);
+		console.log("response", res);
 	};
 
 	return (
