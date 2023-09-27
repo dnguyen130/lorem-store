@@ -1,22 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ProductState } from "@/types/product";
+import { ProductType } from "@/types/product";
 import { BASE_URL } from "@/utils/variables";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/app/store";
 
 interface PageQueryType {
-	data: ProductState[];
+	data: ProductType[];
 	meta: number;
 	listsPerPage: number;
 	total: Record<string, string>[];
 }
 
 interface ProductQueryType {
-	data: ProductState[];
+	data: ProductType[];
 }
 
-const initialState: ProductState = {
+const initialState: ProductType = {
 	id: -1,
 	name: "",
 	description: "",
@@ -33,8 +33,8 @@ export const productSlice = createSlice({
 	initialState,
 	reducers: {
 		setActiveProduct: (
-			_state: ProductState,
-			payload: PayloadAction<ProductState>
+			_state: ProductType,
+			payload: PayloadAction<ProductType>
 		) => {
 			return payload.payload;
 		},

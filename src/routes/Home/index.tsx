@@ -6,7 +6,7 @@ import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import styles from "@/styles/routes/home.module.css";
 
 // Types
-import { ProductState } from "@/types/product";
+import { ProductType } from "@/types/product";
 
 //Redux
 import { useGetProductsByPageQuery } from "@/slices/product/productSlice";
@@ -20,7 +20,7 @@ import {
 import ProductCard from "@/components/productCard";
 
 export default function Home(): ReactElement {
-	const [products, setProducts] = useState<ProductState[] | never[]>([]);
+	const [products, setProducts] = useState<ProductType[] | never[]>([]);
 	const [totalPages, setTotalPages] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const { data, isLoading, isFetching } = useGetProductsByPageQuery(
@@ -43,7 +43,7 @@ export default function Home(): ReactElement {
 	return (
 		<div className={styles.container}>
 			<div className={styles.grid}>
-				{products.map((o: ProductState) => {
+				{products.map((o: ProductType) => {
 					return (
 						<ProductCard
 							key={o.id}

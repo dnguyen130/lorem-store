@@ -1,7 +1,7 @@
 import axios from "axios";
-import { ProductState } from "@/types/product";
+import { ProductType } from "@/types/product";
 
-export const CreateProduct = async (product: ProductState) => {
+export const CreateProduct = async (product: ProductType) => {
 	try {
 		await axios.post("/product", product);
 	} catch (err) {

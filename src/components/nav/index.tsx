@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import styles from "../../styles/components/nav.module.css";
 import { FaShoppingCart } from "react-icons/fa";
+import { BsFillPersonFill } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 
 const Links = [
@@ -24,6 +25,9 @@ export default function Nav(): ReactElement {
 				<div className={styles.headerRight}>
 					<NavLink to="cart" className={styles.icon}>
 						<FaShoppingCart size="100%" />
+					</NavLink>
+					<NavLink to="profile" className={styles.icon}>
+						<BsFillPersonFill size="100%" />
 					</NavLink>
 				</div>
 			</div>

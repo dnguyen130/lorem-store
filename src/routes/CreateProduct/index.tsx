@@ -9,7 +9,7 @@ import CreateModal from "@/components/modals/createModal";
 import styles from "@/styles/routes/createProduct.module.css";
 
 // Types
-import { ProductState } from "@/types/product";
+import { ProductType } from "@/types/product";
 
 // Redux
 import {
@@ -38,7 +38,7 @@ export default function CreateProduct(): ReactElement {
 		trigger,
 		control,
 		formState: { errors }
-	} = useForm<ProductState>({
+	} = useForm<ProductType>({
 		mode: "onBlur",
 		defaultValues: {
 			SKU: 0,
@@ -64,7 +64,7 @@ export default function CreateProduct(): ReactElement {
 		}
 	}
 
-	const onSubmit: SubmitHandler<ProductState> = async (data) => {
+	const onSubmit: SubmitHandler<ProductType> = async (data) => {
 		const formData = new FormData();
 		let image_url;
 		try {

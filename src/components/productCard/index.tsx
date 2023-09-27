@@ -29,7 +29,7 @@ export default function ProductCard({
 			onMouseLeave={onMouseLeave}
 			className={styles.card_container}
 		>
-			<Link to={`${id}`} className={styles.link_container} />
+			<Link to={`product/${id}`} className={styles.link_container} />
 			<img src={image} />
 			<p className={styles.brand}>{brand}</p>
 			<p className={styles.name}>{name}</p>

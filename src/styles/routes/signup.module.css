@@ -1,0 +1,45 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.container form {
+	width: 400px;
+	display: flex;
+	flex-direction: column;
+}
+
+.container form h2 {
+	text-align: center;
+}
+
+.container form button {
+	margin-top: 20px;
+	width: 200px;
+	align-self: center;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--white);
+	background-color: var(--color-success-500);
+	transition: background-color 0.2s;
+	cursor: pointer;
+}
+
+.container form button:hover {
+	background-color: var(--color-success-800);
+}
+
+.name_row {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+.name_row div input {
+	width: 100%;
+}

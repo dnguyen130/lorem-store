@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/app/store";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { BASE_URL } from "@/utils/variables";
 
-interface UserState {
+interface UserType {
 	id: number;
 	email: string;
 	password: string;
@@ -10,7 +12,7 @@ interface UserState {
 	last_name: string;
 }
 
-const initialState: UserState = {
+const initialState: UserType = {
 	id: -1,
 	email: "",
 	password: "",
@@ -19,16 +21,37 @@ const initialState: UserState = {
 };
 
 export const userSlice = createSlice({
-	name: "user",
+	name: "activeUser",
 	initialState,
 	reducers: {
-		setUser: (_state: UserState, action: PayloadAction<UserState>) => {
+		setActiveUser: (_state: UserType, action: PayloadAction<UserType>) => {
 			return action.payload;
 		}
 	}
 });
 
-export const { setUser } = userSlice.actions;
+export const userApi = createApi({
+	reducerPath: "user",
+	baseQuery: fetchBaseQuery({
+		baseUrl: BASE_URL
+	}),
+	endpoints: (builder) => ({
+		signup: builder.mutation({
+			query: (payload) => ({
+				url: "signup",
+				method: "POST",
+				body: payload,
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
+			})
+		})
+	})
+});
+
+export const { useSignupMutation } = userApi;
+
+export const { setActiveUser } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state;
 

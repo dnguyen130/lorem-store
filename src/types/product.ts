@@ -1,4 +1,4 @@
-export interface ProductState {
+export interface ProductType {
 	id: number;
 	name: string;
 	description: string;
@@ -13,7 +13,7 @@ export interface ProductState {
 	modified_at?: Date;
 }
 
-export const initialProductState = {
+export const initialProductType = {
 	name: "",
 	brand: "",
 	description: "",

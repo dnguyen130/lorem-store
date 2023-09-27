@@ -22,6 +22,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreateProduct from "./routes/CreateProduct/index.tsx";
 import ProductPage from "./routes/Product/index.tsx";
 import Cart from "./routes/Cart/index.tsx";
+import Login from "./routes/Login/index.tsx";
+import Profile from "./routes/Profile/index.tsx";
+import Signup from "./routes/Signup/index.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -37,12 +40,24 @@ const router = createBrowserRouter([
 				element: <CreateProduct />
 			},
 			{
-				path: ":productId",
+				path: "product/:productId",
 				element: <ProductPage />
 			},
 			{
 				path: "cart",
 				element: <Cart />
+			},
+			{
+				path: "profile",
+				element: <Profile />
+			},
+			{
+				path: "login",
+				element: <Login />
+			},
+			{
+				path: "signup",
+				element: <Signup />
 			}
 		]
 	}
